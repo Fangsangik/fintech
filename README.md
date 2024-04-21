@@ -66,6 +66,12 @@
 ![image](https://github.com/Fangsangik/fintech/assets/107174112/9b666d76-1094-4cbe-9f9f-b226b7546bee)
 
 
+## <h3 align="center">📚 Tech Stack 📚</h3>
+<p align="center">
+ <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/></a>&nbsp
+ <img src="https://img.shields.io/badge/springboot-CC342D?logo=springboot">
+
+
 
     
      
