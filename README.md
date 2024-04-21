@@ -4,13 +4,16 @@
 
  ### 1.  [ ]  계좌 검색 기능
 
-   * 은행에 따른 검색 기
+   * 은행에 따른 검색 기능
+    + 최근 입출금 내역순으로 검색 / 최대 5개 씩 조회 
+      
    * 잔액 부족시 error
     
 ### 2.  [ ]  계좌 관리 (생성/삭제/금액 인출/금액 입금)
 
   * 계좌 등록 
     * 회원당 계좌 생성 계좌 개수 제한
+    * 회원당 총 10개로 제한 
     * 본인 인증 후 등록
   
   * 계좌 삭제 
@@ -50,13 +53,16 @@
    * 송금 기능
      + 송금 할 계좌, 송금 금액, 은행 입력
      + 계좌 비밀번호 입력
-     + 같은 은행일 경우 수수료 X , 다른 은행일 경우 수수료 송금 금액 % 10
+     + 같은 은행일 경우 수수료 X ,
+       - 다른 은행일 경우 수수료 송금 금액
      + 회원 등급에 따라 수수료 면제
+       + VIP 일 경우 수수료 면제, 일반회원 수수료 1% 부과
      + 송금 금액이 현 계좌 금액 보다 클경우 실패
      + 내역 저장
     
    * 조회 기간 설정 (paging 사용)
-     + 날짜로 조회 가능 
+     + 날짜로 조회 가능
+     + 총 3달 전꺼 까지 조회 가능 (순수 JPA 사용해볼 예정)
 
 ### +A ) 추가 희망 기능 구현 
 주식 매장 계좌와 연결 해서 거래 성립 
@@ -69,6 +75,7 @@
 ## <h3 align="center">📚 Tech Stack 📚</h3>
 <p align="center">
 <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> <img src="https://img.shields.io/badge/springboot-CC342D?logo=springboot"> <img src="https://img.shields.io/badge/spring-CC342D?logo=spring"> <img src="https://img.shields.io/badge/springboot-CC342D?logo=springboot"> <img src="https://img.shields.io/badge/gradle-CC342D?logo=gradle"> <img src="https://img.shields.io/badge/jpa-CC342D?logo=jpa">
+<img src="https://img.shields.io/badge/ymsql-CC342D?logo=mysql">
 
 ## Trouble Shooting 
     
