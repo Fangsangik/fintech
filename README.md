@@ -68,9 +68,7 @@
 
 ## <h3 align="center">📚 Tech Stack 📚</h3>
 <p align="center">
-<div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div>
- <img src="https://img.shields.io/badge/springboot-CC342D?logo=springboot">
- <img src="https://img.shields.io/badge/spring-CC342D?logo=spring">
+<div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> <img src="https://img.shields.io/badge/springboot-CC342D?logo=springboot"> <img src="https://img.shields.io/badge/spring-CC342D?logo=spring"> <img src="https://img.shields.io/badge/springboot-CC342D?logo=springboot"> <img src="https://img.shields.io/badge/gradle-CC342D?logo=gradle"> <img src="https://img.shields.io/badge/jpa-CC342D?logo=jpa">
     
      
     
