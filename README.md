@@ -15,7 +15,7 @@
   
   * 계좌 삭제 
     * 삭제시 본인 인증 
-    * 삭제시 완저히 DB 에서 삭제
+    * 삭제시 남겨놓는 방향 
 
   * 계좌 조회
     * 본인 계좌 번호, 비말번호 입력 후 조회  
@@ -35,7 +35,7 @@
 
     * 회원 탈퇴 
      -> 비밀번호 인증 후 탈퇴 
-     -> DB 완전 삭제 
+     -> DB 남겨놓는 방향... .
 
 ### 5.  [ ] 거래기능 
 
@@ -69,6 +69,8 @@
 ## <h3 align="center">📚 Tech Stack 📚</h3>
 <p align="center">
 <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> <img src="https://img.shields.io/badge/springboot-CC342D?logo=springboot"> <img src="https://img.shields.io/badge/spring-CC342D?logo=spring"> <img src="https://img.shields.io/badge/springboot-CC342D?logo=springboot"> <img src="https://img.shields.io/badge/gradle-CC342D?logo=gradle"> <img src="https://img.shields.io/badge/jpa-CC342D?logo=jpa">
+
+## Trouble Shooting 
     
      
     
