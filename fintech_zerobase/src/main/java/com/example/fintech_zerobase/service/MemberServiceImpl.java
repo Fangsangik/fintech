@@ -2,6 +2,7 @@ package com.example.fintech_zerobase.service;
 
 import com.example.fintech_zerobase.domain.Member;
 import com.example.fintech_zerobase.repository.MemberRepository;
+import com.example.fintech_zerobase.repository.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberRepository memberRepository;
+    private final MemoryMemberRepository memberRepository;
 
     @Override
     public Long join(Member member) {
@@ -29,11 +30,23 @@ public class MemberServiceImpl implements MemberService {
 //        }
 //
 //    }
-        Optional<Member> existingMember = memberRepository.findById(member.getId());
+        Optional<Member> existingMember = Optional.ofNullable(memberRepository.findById(member.getId()));
         if (existingMember.isPresent() && existingMember.get().getId().equals(id)) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         } else {
             memberRepository.save(member);
+        }
+    }
+
+    @Override
+    public boolean deleteMemberById(Long id) {
+        Optional<Member> memberId = Optional.ofNullable(memberRepository.findById(id));
+
+        if (memberId != null){
+            memberRepository.delete(id);
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -7,4 +7,6 @@ public interface MemberService {
     Long join(Member member);
 
     void validateDuplicateMember(Long id, Member member);
+
+    boolean deleteMemberById(Long id);
 }

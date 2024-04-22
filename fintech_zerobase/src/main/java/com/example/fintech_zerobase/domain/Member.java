@@ -1,5 +1,6 @@
 package com.example.fintech_zerobase.domain;
 
+import com.example.fintech_zerobase.type.Grade;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,9 @@ public class Member {
 
     @Embedded
     private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
 
     public int check_Age(int age){
         if (age < 18) {

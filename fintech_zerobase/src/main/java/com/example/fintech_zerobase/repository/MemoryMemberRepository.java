@@ -21,11 +21,8 @@ public class MemoryMemberRepository {
         return member;
     }
 
-    public Long findById(Member member, Long id) {
-        if (member.getId().equals(id)){
-            return member.getId();
-        }
-        return null;
+    public Member findById(Long id) {
+        return store.get(id);
     }
 
     public Optional<Member> findByName(String name){
@@ -36,5 +33,9 @@ public class MemoryMemberRepository {
 
     public List<Member> findAll(){
         return new ArrayList<>(store.values());
+    }
+
+    public boolean delete(Long id){
+        return store.remove(id) != null;
     }
 }
