@@ -10,11 +10,15 @@ import lombok.Setter;
 @Setter
 public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String password;
     private int age;
+
+    @ManyToOne
+    @JoinColumn(name = "ACCOUNT_ID")
+    private Account account;
 
     @Embedded
     private Address address;
