@@ -21,7 +21,4 @@ public class Account {
     private Long balance;
     private LocalDateTime registeredAt;
     private LocalDateTime unregisteredAt;
-
-    @OneToMany(mappedBy = "account")
-    private List<Member> members = new ArrayList<>();
 }
