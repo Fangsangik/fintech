@@ -49,4 +49,9 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
     }
+
+    @Override
+    public Member findMember(long id) {
+        return memberRepository.findById(id);
+    }
 }

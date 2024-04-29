@@ -13,7 +13,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemoryMemberRepository {
 
-    private final MemberRepository memberRepository;
     private final HashMap<Long, Member> store = new HashMap<>();
 
     public Member save(Member member) {
