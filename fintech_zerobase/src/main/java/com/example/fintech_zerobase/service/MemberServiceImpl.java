@@ -1,7 +1,6 @@
 package com.example.fintech_zerobase.service;
 
 import com.example.fintech_zerobase.domain.Member;
-import com.example.fintech_zerobase.repository.MemberRepository;
 import com.example.fintech_zerobase.repository.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
