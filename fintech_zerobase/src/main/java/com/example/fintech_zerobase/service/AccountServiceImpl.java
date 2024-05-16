@@ -1,16 +1,20 @@
 package com.example.fintech_zerobase.service;
 
+import ch.qos.logback.core.spi.ErrorCodes;
 import com.example.fintech_zerobase.domain.Account;
 import com.example.fintech_zerobase.domain.Member;
 import com.example.fintech_zerobase.dto.AccountDto;
+import com.example.fintech_zerobase.exception.AccountException;
 import com.example.fintech_zerobase.repository.AccountRepository;
 import com.example.fintech_zerobase.repository.MemberRepository;
 import com.example.fintech_zerobase.repository.MemoryMemberRepository;
 import com.example.fintech_zerobase.type.AccountStatus;
+import com.example.fintech_zerobase.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.rmi.AccessException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +49,8 @@ public class AccountServiceImpl implements AccountService{
     public AccountDto deleteAccount(Long id, String name, String password, String accountNumber) {
         Member member = getAccountMember(id);
 
-        Account account = accountRepository.findByInfo(accountNumber);
+        Account account = accountRepository.findByInfo(accountNumber)
+                .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
 
         validateDeleteAccount(member, account);
 
@@ -77,15 +82,15 @@ public class AccountServiceImpl implements AccountService{
 
     private void validateDeleteAccount(Member member, Account account) {
         if (!Objects.equals(member.getId(), account.getMember().getId())){
-            throw new RuntimeException("아이디가 맞지 않습니다.");
+            throw new AccessException(ErrorCode.USER_UN_MATCH);
         }
 
         if (account.getAccountStatus() == AccountStatus.UN_REGISTERED){
-            throw new RuntimeException("이미 해지된 계좌 입니다");
+            throw new AccountException(ErrorCode.USER_NOT_FOUND);
         }
 
         if (account.getBalance() != 0){
-            throw new RuntimeException("잔고를 비워주세요");
+            throw new AccountException(ErrorCode.EMPTY_YOUR_BALANCE);
         }
 
         //비밀번호 유효성 검사 추가
@@ -100,17 +105,17 @@ public class AccountServiceImpl implements AccountService{
 
     private void validateCreateAccount(Member member) {
         if (accountRepository.countAccount(member) >= 10) {
-            throw new RuntimeException("만들수 있는 계좌 수를 초과 했습니다.");
+            throw new AccountException(ErrorCode.TOO_MUCH_ACCOUNT);
         }
 
         if (member.check_Age(member.getAge()) < 18){
-            throw new RuntimeException("미성년자는 부모님의 동의가 있어야 계좌 생성이 가능합니다.");
+            throw new AccountException(ErrorCode.TOO_YOUNG_TO_CREATE_BALANCE);
         }
     }
 
     private Member getAccountMember(Long id) {
        return memberRepository.findById(id)
-               .orElseThrow(() -> new RuntimeException("회원을 찾지 못했습니다."));
+               .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
     }
 
 }
