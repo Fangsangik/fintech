@@ -18,7 +18,8 @@ class MemberServiceImplTest {
     @Test
         void join(){
         //given
-        Member member = new Member(1L, "황", "1234", 25);
+        Member member = new Member();
+        member.setId(1L);
         //when
         memberService.join(member);
         Member findMember = memberService.findMember(1L);

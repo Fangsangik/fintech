@@ -16,7 +16,6 @@ public class AccountDto {
     private Long id;
     private String bankName;
     private String password;
-    private String balance;
     private String accountNumber;
     private Long account_amount;
     private AccountStatus accountStatus;

@@ -3,20 +3,23 @@ package com.example.fintech_zerobase.controller;
 import com.example.fintech_zerobase.domain.Member;
 import com.example.fintech_zerobase.repository.MemoryMemberRepository;
 import com.example.fintech_zerobase.service.MemberServiceImpl;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Optional;
 
-@RestController("/members")
+@RestController
 @RequiredArgsConstructor
 public class MemberController {
     private MemoryMemberRepository memberRepository;
     private MemberServiceImpl memberService;
 
-    @GetMapping("/form")
+    @GetMapping("/members/{id}")
     public ResponseEntity<String> findMember(@PathVariable("id") Long id){
         Member member = memberRepository.findById(id);
         if (member != null){
@@ -26,28 +29,9 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/save")
-    /*
-    데이터 저장의 경우 body에 담아서, 검색 조건은 param
-     */
-    public String save(
-            @RequestBody Long id,
-             String name,
-             String password,
-             int age,
-            Model model){
-        Member member = new Member(id, name, password, age);
-        memberRepository.save(member);
-
-        model.addAttribute("member", member);
-        return "save";
-    }
-
-    @GetMapping
-    public String members(Model model) {
-        List<Member> members = memberRepository.findAll();
-        model.addAttribute("members", members);
-        return "members";
+    @PostConstruct
+    public void save(){
+        memberRepository.save(new Member());
     }
 
     @DeleteMapping
