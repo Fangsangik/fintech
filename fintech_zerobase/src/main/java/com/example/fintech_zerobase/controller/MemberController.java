@@ -27,11 +27,14 @@ public class MemberController {
     }
 
     @PostMapping("/save")
+    /*
+    데이터 저장의 경우 body에 담아서, 검색 조건은 param
+     */
     public String save(
-            @RequestParam("id") Long id,
-            @RequestParam("name") String name,
-            @RequestParam("password") String password,
-            @RequestParam("age") int age,
+            @RequestBody Long id,
+             String name,
+             String password,
+             int age,
             Model model){
         Member member = new Member(id, name, password, age);
         memberRepository.save(member);
