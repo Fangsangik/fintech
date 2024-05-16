@@ -14,16 +14,15 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @Entity
-public class Account {
+public class Account extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String accountNumber;
     private Long balance;
-    private LocalDateTime registeredAt;
-    private LocalDateTime unregisteredAt;
 
-    private Member member;
+    @OneToMany(mappedBy = "account")
+    private List<Member> members = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
