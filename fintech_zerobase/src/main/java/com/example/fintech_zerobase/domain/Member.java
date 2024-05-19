@@ -8,7 +8,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Member extends BaseEntity{
+public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -25,13 +25,6 @@ public class Member extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private Grade grade;
-
-    public Member(Long id, String name, String password, int age) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.age = age;
-    }
 
     public int check_Age(int age){
         if (age < 18) {
