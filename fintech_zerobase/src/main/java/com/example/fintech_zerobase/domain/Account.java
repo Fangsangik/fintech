@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -26,4 +27,7 @@ public class Account extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
+
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactions = new LinkedList<>();
 }
