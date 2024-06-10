@@ -24,26 +24,23 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TransactionService {
 
-    @Autowired
     private final TransactionRepository transactionRepository;
-
-    @Autowired
     private final MemberRepository memberRepository;
-
-    @Autowired
     private final AccountRepository accountRepository;
 
     @Transactional
     public TransactionDto useBalance(Long id, String accountNumber, Long amount) {
-        Optional<Member> member = memberRepository.findById(id)
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
 
-        Optional<Account> account = accountRepository.findByInfo(accountNumber)
+        Account account = accountRepository.findByInfo(accountNumber)
                 .orElseThrow(() -> new AccountException(ErrorCode.ACCOUNT_NOT_FOUND));
 
         validateUseBalance(member, account, amount);
 
-        return TransactionDto.fromEntity(saveGetTransaction())
+        return TransactionDto.fromEntity(
+                saveGetTransaction(TransactionType.SEND, TransactionResult.SUCCESS, account, amount)
+        );
     }
 
     private Transaction saveGetTransaction(TransactionType transactionType, TransactionResult transactionResult,
@@ -71,16 +68,16 @@ public class TransactionService {
 
     }
 
-    private void validateUseBalance(Optional<Member> member, Optional<Account> account, Long amount) {
-        if (member.get().getId() != account.get().getId()) {
+    private void validateUseBalance(Member member, Account account, Long amount) {
+        if (member.getId() != account.getId()) {
             throw new AccountException(ErrorCode.USER_NOT_FOUND);
         }
 
-        if (account.get().getAccountStatus() != AccountStatus.REGISTERED){
+        if (account.getAccountStatus() != AccountStatus.REGISTERED){
             throw new AccountException(ErrorCode.ACCOUNT_NOT_FOUND);
         }
 
-        if (account.get().getBalance() < amount){
+        if (account.getBalance() < amount){
             throw new AccountException(ErrorCode.AMOUNT_EXCEED);
         }
     }
@@ -107,7 +104,7 @@ public class TransactionService {
         }
 
         if (transaction.getTransactedAt().isBefore(LocalDateTime.now().minusDays(3))) {
-            throw new AccountException(ErrorCode.TOO_OLD_TO_FIND)
+            throw new AccountException(ErrorCode.TOO_OLD_TO_FIND);
         }
     }
 }
