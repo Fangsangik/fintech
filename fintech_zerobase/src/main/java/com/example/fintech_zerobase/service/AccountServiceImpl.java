@@ -22,7 +22,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private final AccountRepository accountRepository;
@@ -36,13 +36,16 @@ public class AccountServiceImpl implements AccountService{
 
         validateCreateAccount(member);
 
-        //본인인증 ??
 
-        Account account = new Account();
-        account.setId(1L);
-        account.setBalance(balance);
+        //빌더 페턴 적용해서 dirtychecking 피함
+        Account account = Account.builder()
+                .member(member)
+                .balance(balance)
+                .accountStatus(AccountStatus.REGISTERED)
+                .build();
+
         accountRepository.save(account);
-        return accountDto(account);
+        return AccountDto.fromEntity(account);
     }
 
     @Override
@@ -54,26 +57,23 @@ public class AccountServiceImpl implements AccountService{
 
         validateDeleteAccount(member, account);
 
-        account.setAccountStatus(AccountStatus.UN_REGISTERED);
-        accountRepository.save(account);
-        return accountDto(account);
+        accountRepository.delete(account);
+        return AccountDto.fromEntity(account);
     }
 
     @Override
     public List<AccountDto> findAllAccount(Long id) {
-       Member member = getAccountMember(id);
+        Member member = getAccountMember(id);
 
-       List<Account> accounts = accountRepository.findAllAccount(member);
+        List<Account> accounts = accountRepository.findAllAccount(member);
 
-       return accountDtoList(accounts);
+        return accountDtoList(accounts);
     }
 
     private List<AccountDto> accountDtoList(List<Account> accounts) {
         List<AccountDto> accountDtoList = new ArrayList<>();
-        for (AccountDto account : accountDtoList) {
-            AccountDto accountDto = new AccountDto();
-            accountDto.setId(account.getId());
-            accountDto.setBalance(account.getBalance());
+        for (Account account : accounts) {
+            AccountDto accountDto = AccountDto.fromEntity(account);
             accountDtoList.add(accountDto);
         }
 
@@ -81,15 +81,15 @@ public class AccountServiceImpl implements AccountService{
     }
 
     private void validateDeleteAccount(Member member, Account account) {
-        if (!Objects.equals(member.getId(), account.getMember().getId())){
+        if (!Objects.equals(member.getId(), account.getMember().getId())) {
             throw new AccessException(ErrorCode.USER_UN_MATCH);
         }
 
-        if (account.getAccountStatus() == AccountStatus.UN_REGISTERED){
+        if (account.getAccountStatus() == AccountStatus.UN_REGISTERED) {
             throw new AccountException(ErrorCode.USER_NOT_FOUND);
         }
 
-        if (account.getBalance() != 0){
+        if (account.getBalance() != 0) {
             throw new AccountException(ErrorCode.EMPTY_YOUR_BALANCE);
         }
 
@@ -108,14 +108,14 @@ public class AccountServiceImpl implements AccountService{
             throw new AccountException(ErrorCode.TOO_MUCH_ACCOUNT);
         }
 
-        if (member.check_Age(member.getAge()) < 18){
+        if (member.checkAge(member.getAge()) < 18) {
             throw new AccountException(ErrorCode.TOO_YOUNG_TO_CREATE_BALANCE);
         }
     }
 
     private Member getAccountMember(Long id) {
-       return memberRepository.findById(id)
-               .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new AccountException(ErrorCode.USER_NOT_FOUND));
     }
 
 }
