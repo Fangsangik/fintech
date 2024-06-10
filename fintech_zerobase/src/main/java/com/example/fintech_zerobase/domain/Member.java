@@ -2,12 +2,19 @@ package com.example.fintech_zerobase.domain;
 
 import com.example.fintech_zerobase.type.Grade;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
 @Entity
 @Getter
 @Setter
+@Slf4j
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,16 +33,9 @@ public class Member extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    public Member(Long id, String name, String password, int age) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.age = age;
-    }
-
-    public int check_Age(int age){
+    public int checkAge(int age){
         if (age < 18) {
-            System.out.println("부모의 동의가 필요 합니다.");
+            log.error("age not fullfill {}", HttpStatus.FORBIDDEN);
         }
         return age;
     }
